@@ -2,7 +2,6 @@ package com.example.haveavacation;
 
 import java.util.Locale;
 
-import com.dropbox.chooser.android.DbxChooser;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.android.AuthActivity;
