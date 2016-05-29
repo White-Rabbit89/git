@@ -25,9 +25,7 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f080004;
-        public static final int auth_button=0x7f080002;
-        public static final int chooser_button=0x7f080003;
+        public static final int auth_settings=0x7f080002;
         public static final int pager=0x7f080000;
         public static final int section_label=0x7f080001;
     }
