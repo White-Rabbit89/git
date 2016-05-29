@@ -8,5 +8,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="choose">Scegli</string>
+    <string name="link">Collega a Dropbox</string>
+    <string name="unlink">Scollega da Dropbox</string>
 
 </resources>
