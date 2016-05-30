@@ -53,6 +53,8 @@ public class DownloadExcel extends AsyncTask<Void, Long, Boolean> {
     // won't be able to use this code for two simultaneous downloads.
     private final static String EXCEL_FILE_NAME = "Piano ferie personale.xlsx";
     
+    private final static String EXCEL_MYME_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    
     private final static String SUCCESS_MSG = "Excel scaricato correttamente";
 
     public DownloadExcel(Context context, DropboxAPI<?> api,
@@ -104,7 +106,8 @@ public class DownloadExcel extends AsyncTask<Void, Long, Boolean> {
             // Make a list of everything in it that we can get a thumbnail for
             ArrayList<Entry> thumbs = new ArrayList<Entry>();
             for (Entry ent: dirent.contents) {
-                if (ent.thumbExists) {
+            	/* We check if entry is an ms-excel file */
+                if (ent.mimeType.equals(EXCEL_MYME_TYPE)) {
                     // Add it to the list of thumbs we can choose from
                     thumbs.add(ent);
                 }
@@ -135,10 +138,8 @@ public class DownloadExcel extends AsyncTask<Void, Long, Boolean> {
                 return false;
             }
 
-            // This downloads a smaller, thumbnail version of the file.  The
-            // API to download the actual file is roughly the same.
-            mApi.getThumbnail(path, mFos, ThumbSize.BESTFIT_960x640,
-                    ThumbFormat.JPEG, null);
+            // This downloads the actual file
+            mApi.getFile(path, null, mFos, null);
             if (mCanceled) {
                 return false;
             }
@@ -203,7 +204,7 @@ public class DownloadExcel extends AsyncTask<Void, Long, Boolean> {
         mDialog.dismiss();
         if (result) {
             // File downloaded correctly
-        	showToast("Excel scaricato correttamente");
+        	showToast(SUCCESS_MSG);
         } else {
             // Couldn't download it, so show an error
             showToast(mErrorMsg);

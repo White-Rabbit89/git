@@ -238,7 +238,7 @@ public class MainActivity extends Activity {
 			rootView = inflater.inflate(R.layout.fragment_main, container,
 					false);
 			
-	        // This is the button to take a photo
+	        // This is the button to take the excel file
 			mDownloadXls = (Button)rootView.findViewById(R.id.download_button);
 
 			mDownloadXls.setOnClickListener(new OnClickListener() {

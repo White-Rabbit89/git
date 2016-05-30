@@ -10,5 +10,6 @@
     <string name="choose">Scegli</string>
     <string name="link">Collega a Dropbox</string>
     <string name="unlink">Scollega da Dropbox</string>
+    <string name="downloadExcel">Scarica excel</string>
 
 </resources>
