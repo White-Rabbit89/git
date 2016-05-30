@@ -1,5 +1,6 @@
 package com.example.haveavacation;
 
+import java.io.File;
 import java.util.Locale;
 
 import com.dropbox.client2.DropboxAPI;
@@ -24,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
@@ -67,11 +69,11 @@ public class MainActivity extends Activity {
 
 	static final boolean USE_OAUTH1 = false;
 
-	private DropboxAPI<AndroidAuthSession> mApi;
+	static DropboxAPI<AndroidAuthSession> mApi;
 
-	static boolean mLoggedIn;
-	MenuItem mSubmit;
-
+	private static boolean mLoggedIn;
+	private MenuItem mSubmit;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -98,7 +100,7 @@ public class MainActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
-
+		
 		mSubmit = menu.findItem(R.id.auth_settings);
 
 		// Display the proper UI state if logged in or not
@@ -210,6 +212,11 @@ public class MainActivity extends Activity {
 		 * fragment.
 		 */
 		private static final String ARG_SECTION_NUMBER = "section_number";
+		
+	    private Button mDownloadXls;
+	    
+	    private final String EXCEL_DIR = "/Excel/";
+	    private File excelFile;
 
 		/**
 		 * Returns a new instance of this fragment for the given section number.
@@ -226,10 +233,20 @@ public class MainActivity extends Activity {
 		}
 
 		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+		public View onCreateView(LayoutInflater inflater, final ViewGroup container,
 				Bundle savedInstanceState) {
 			rootView = inflater.inflate(R.layout.fragment_main, container,
 					false);
+			
+	        // This is the button to take a photo
+			mDownloadXls = (Button)rootView.findViewById(R.id.download_button);
+
+			mDownloadXls.setOnClickListener(new OnClickListener() {
+	            public void onClick(View v) {
+	                DownloadExcel download = new DownloadExcel(container.getContext(), mApi, EXCEL_DIR, excelFile);
+	                download.execute();
+	            }
+	        });	
 
 			return rootView;
 		}
