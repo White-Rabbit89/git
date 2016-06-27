@@ -45,9 +45,7 @@ public class DownloadExcel extends AsyncTask<Void, Long, Boolean> {
     private File mFile;
     
     // Note that, since we use a single file name here for simplicity, you
-    // won't be able to use this code for two simultaneous downloads.
-    private final static String EXCEL_FILE_NAME = "Piano ferie personale.xlsx";
-    
+    // won't be able to use this code for two simultaneous downloads.    
     private final static String EXCEL_MYME_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     
     private final static String SUCCESS_MSG = "Excel scaricato correttamente";
@@ -125,8 +123,6 @@ public class DownloadExcel extends AsyncTask<Void, Long, Boolean> {
             String path = ent.path;
             mFileLen = ent.bytes;
 
-            
-            mFile = new File(mContext.getCacheDir().getAbsolutePath() + "/" + EXCEL_FILE_NAME);
             try {
                 mFos = new FileOutputStream(mFile);
             } catch (FileNotFoundException e) {

@@ -213,6 +213,7 @@ public class MainActivity extends Activity {
 	public static class PlaceholderFragment extends Fragment {
 
 		private View rootView;
+	    private final static String EXCEL_FILE_NAME = "Piano ferie personale.xlsx";
 
 		/**
 		 * The fragment argument representing the section number for this
@@ -252,11 +253,13 @@ public class MainActivity extends Activity {
 			mDownloadXls.setOnClickListener(new OnClickListener() {
 	            @Override
 				public void onClick(View v) {
+	            	excelFile = new File(container.getContext().getCacheDir().getAbsolutePath() + "/" + EXCEL_FILE_NAME);
 	                downloadTask = new DownloadExcel(container.getContext(), mApi, EXCEL_DIR, excelFile);
 //	                try {
-	                	// get method waits until asyncTask is terminated
-						downloadTask.execute();
-						
+	                	downloadTask.execute();
+//	                	// get method waits until asyncTask is terminated
+//						downloadTask.execute().get();
+//						
 //						Workbook workbook = Workbook.getWorkbook(excelFile);
 //					} catch (InterruptedException e1) {
 //						e1.printStackTrace();
