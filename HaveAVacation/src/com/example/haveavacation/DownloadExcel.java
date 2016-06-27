@@ -10,15 +10,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
-import com.dropbox.client2.DropboxAPI.ThumbFormat;
-import com.dropbox.client2.DropboxAPI.ThumbSize;
 import com.dropbox.client2.exception.DropboxException;
 import com.dropbox.client2.exception.DropboxIOException;
 import com.dropbox.client2.exception.DropboxParseException;
@@ -39,7 +35,6 @@ public class DownloadExcel extends AsyncTask<Void, Long, Boolean> {
     private final ProgressDialog mDialog;
     private DropboxAPI<?> mApi;
     private String mPath;
-    private Drawable mDrawable;
 
     private FileOutputStream mFos;
 
@@ -68,8 +63,9 @@ public class DownloadExcel extends AsyncTask<Void, Long, Boolean> {
 
         mDialog = new ProgressDialog(context);
         mDialog.setMessage("Downloading Excel");
-        mDialog.setButton(ProgressDialog.BUTTON_POSITIVE, "Cancel", new OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
+        mDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Cancel", new OnClickListener() {
+            @Override
+			public void onClick(DialogInterface dialog, int which) {
                 mCanceled = true;
                 mErrorMsg = "Canceled";
 
@@ -129,10 +125,10 @@ public class DownloadExcel extends AsyncTask<Void, Long, Boolean> {
             String path = ent.path;
             mFileLen = ent.bytes;
 
-
-            String cachePath = mContext.getCacheDir().getAbsolutePath() + "/" + EXCEL_FILE_NAME;
+            
+            mFile = new File(mContext.getCacheDir().getAbsolutePath() + "/" + EXCEL_FILE_NAME);
             try {
-                mFos = new FileOutputStream(cachePath);
+                mFos = new FileOutputStream(mFile);
             } catch (FileNotFoundException e) {
                 mErrorMsg = "Couldn't create a local file to store the image";
                 return false;
@@ -144,8 +140,7 @@ public class DownloadExcel extends AsyncTask<Void, Long, Boolean> {
                 return false;
             }
 
-            mDrawable = Drawable.createFromPath(cachePath);
-            // We must have a legitimate picture
+            // At this point we have excel file
             return true;
 
         } catch (DropboxUnlinkedException e) {
@@ -209,6 +204,7 @@ public class DownloadExcel extends AsyncTask<Void, Long, Boolean> {
             // Couldn't download it, so show an error
             showToast(mErrorMsg);
         }
+        super.onPostExecute(result);
     }
 
     private void showToast(String msg) {

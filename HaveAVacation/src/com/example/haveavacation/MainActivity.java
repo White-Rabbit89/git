@@ -1,7 +1,12 @@
 package com.example.haveavacation;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
@@ -29,6 +34,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
 
 public class MainActivity extends Activity {
 	private static final String TAG = "MainActivity";
@@ -217,6 +224,7 @@ public class MainActivity extends Activity {
 	    
 	    private final String EXCEL_DIR = "/Excel/";
 	    private File excelFile;
+		private DownloadExcel downloadTask;
 
 		/**
 		 * Returns a new instance of this fragment for the given section number.
@@ -242,9 +250,23 @@ public class MainActivity extends Activity {
 			mDownloadXls = (Button)rootView.findViewById(R.id.download_button);
 
 			mDownloadXls.setOnClickListener(new OnClickListener() {
-	            public void onClick(View v) {
-	                DownloadExcel download = new DownloadExcel(container.getContext(), mApi, EXCEL_DIR, excelFile);
-	                download.execute();
+	            @Override
+				public void onClick(View v) {
+	                downloadTask = new DownloadExcel(container.getContext(), mApi, EXCEL_DIR, excelFile);
+//	                try {
+	                	// get method waits until asyncTask is terminated
+						downloadTask.execute();
+						
+//						Workbook workbook = Workbook.getWorkbook(excelFile);
+//					} catch (InterruptedException e1) {
+//						e1.printStackTrace();
+//					} catch (ExecutionException e1) {
+//						e1.printStackTrace();
+//					} catch (BiffException e) {
+//						e.printStackTrace();
+//					} catch (IOException e) {
+//						e.printStackTrace();
+//					}
 	            }
 	        });	
 
